@@ -1,0 +1,40 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+
+<div class="container">
+    <h1 class="text-center">Profile</h1>
+
+    <div class="rows">
+        
+    
+        <div class="card text-bg-primary mb-3 item" style="max-width: 18rem;">
+            <a href="{% url 'userBids' %}" class="text-white">
+            <div class="text-center fs-4">My bids</div>
+        </a>
+          </div>
+    
+          <div class="card text-bg-primary mb-3 item" style="max-width: 18rem;">
+            <a href="{% url 'userwins' %}" class="text-white">
+            <div class="text-center fs-4">Wins</div>
+        </a>
+          </div>
+    
+          <div class="card text-bg-primary mb-3 item" style="max-width: 18rem;">
+            <a href="{% url 'userproducts' %}" class="text-white">
+            <div class="text-center fs-4">My Products</div>
+        </a>
+          </div>
+        
+    </div>
+</div>
+
+
+
+{% endblock body %}
+
+
+
+
+
+

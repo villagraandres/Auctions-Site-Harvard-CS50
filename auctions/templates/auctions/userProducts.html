@@ -1,0 +1,70 @@
+{% extends 'auctions/layout.html' %}
+
+
+{% block body %}
+
+<div class="container">
+    <h2>Active Products</h2>
+
+
+    <div class="active">
+
+    
+    {% for article in activeArticles  %}
+<a href="{% url 'product' article.id %}">
+    <div class="product border">
+        <div class="image-container">
+            <img class="image" src="{{article.image}}" alt="">
+        </div>
+        <div class="info">
+            <h3>{{article.title}}</h3>
+            <p><b>Price: $</b>{% if   article.bidsProduct.all.last.bid is None%}{{article.price}}{% endif %}{{ article.bidsProduct.all.last.bid}}</p>
+                
+               
+            
+            </p>
+            <p>{{article.description}}</p>
+            <p class="text-muted">{{ article.date | date:"F j, Y h:i A" }}</p>
+        </div>
+
+    </div>
+</a>
+
+    {% endfor %}
+</div>
+
+
+    
+
+    <div class="closed mt-4">
+    <h2>Closed Products</h2>
+    
+    {% for article in closedArticles  %}
+<a href="{% url 'product' article.id %}">
+    <div class="product border">
+        <div class="image-container">
+            <img class="image" src="{{article.image}}" alt="">
+        </div>
+        <div class="info">
+            <h3>{{article.title}}</h3>
+            <p><b>Price: $</b>{% if   article.bidsProduct.all.last.bid is None%}{{article.price}}{% endif %}{{ article.bidsProduct.all.last.bid}}</p>
+                
+               
+            
+            </p>
+            <p>{{article.description}}</p>
+            <p class="text-muted">{{ article.date | date:"F j, Y h:i A" }}</p>
+        </div>
+
+    </div>
+</a>
+    {% endfor %}
+</div>
+
+
+</div>
+
+
+
+
+{% endblock body %}

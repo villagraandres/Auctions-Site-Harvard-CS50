@@ -1,0 +1,33 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+  
+<div class="container">
+      <h1 class="text-center">Active Bids</h1>
+
+    {% for product in products  %}
+ 
+      
+     
+        
+    <div class="card mt-4 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{product.title}}</h5>
+          <p class="card-text"><span class="fw-bold">Satus: </span> 
+          
+          {% if product.bidsProduct.all.last.user == user %}
+            Your bid is the highest
+            
+            {% else %}
+            There are bigger bids than yours
+          {% endif %}
+          
+          </p>
+          <a href="{% url 'product' product.id %}" class="btn btn-primary">See the product</a>
+        </div>
+      </div>
+
+     
+    {% endfor %}
+</div>
+{% endblock body %}

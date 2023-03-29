@@ -1,0 +1,35 @@
+{% extends 'auctions/layout.html' %}
+
+
+{% block body %}
+<h2 class="text-center mb-4">Watchlist</h2>
+
+{% if  articles|length == 0 %}
+<h2>No products</h2>
+{% endif %}
+
+{{message}}
+
+
+{% for article in articles  %}
+<a href="{% url 'product' article.id %}">
+    <div class="product border">
+        <div class="image-container">
+            <img class="image" src="{{article.image}}" alt="">
+        </div>
+        <div class="info">
+            <h3>{{article.title}}</h3>
+            <p><b>Price: </b>${{article.price}}</p>
+            <p>{{article.description}}</p>
+            <p class="text-muted">{{ article.date | date:"F j, Y h:i A" }}</p>
+        </div>
+
+    </div>
+</a>
+
+    {% endfor %}
+
+{% endblock body %}
+
+
+

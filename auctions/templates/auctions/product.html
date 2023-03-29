@@ -1,0 +1,174 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+
+<div class="container">
+
+    {% if message %}
+        <div class="alert alert-{{class}}" role="alert">
+            {{message}}
+        </div> 
+    {% endif %}
+    
+    
+       
+    <h2>Listing: {{article.title}}</h2>
+
+{% if user.is_authenticated %}
+    <form  method="POST" action="{% url 'watchlistChange' %}"  >
+        {% csrf_token %}
+       <input type="hidden" name="product_id" value="{{article.id}}">
+        {% if not add %}
+             <input type="submit" class="btn btn-danger btn-sm" value="Delete from Watchlist">
+
+        {% else %}
+                 <input type="submit" class="btn btn-info btn-sm text-white" value="Add to Watchlist">
+        {% endif %}
+    </form>
+{% endif %}
+
+
+{% if user.is_authenticated %}
+    {% if article.closed == True %}
+    <div class="details mt-4">
+       <p>This Article has been sold</p>
+        <p><span class="fw-bold">Sold by:</span> 
+
+    {% if   article.bidsProduct.all.last.bid is None%}
+        {{article.price}}
+    {% endif %}
+    
+    {{ article.bidsProduct.all.last.bid}}</p>
+    
+    
+    </p>
+    <p><span class="fw-bold">Winner:</span> 
+        
+        {% if   article.bidsProduct.all.last.user == user%}
+        You are the winner!
+
+        {% else %}
+        {{ article.bidsProduct.all.last.user}} </p>
+    {% endif %}  
+    </div>
+   {% comment %} end del if que dice si el articulo esta cerrado {% endcomment %}
+    {% endif %}
+{% endif %}
+
+   
+
+    
+    {% if article.closed == False %}
+     {% comment %} Si el articulo no esta cerrado se muestra el html {% endcomment %}
+ 
+   
+
+    <div class="mt-5 mb-5" > 
+    <img class="ArticleImage" src="{{article.image}}" alt="image of the auction">
+</div>
+
+
+    <p class="fs-4">{{article.description}}</p>
+    <p class="fs-4 fw-bold">$
+        
+        {% if   article.bidsProduct.all.last.bid is None%}
+            {{article.price}}
+        {% endif %}
+        
+        {{ article.bidsProduct.all.last.bid}}</p>
+    <p class="text-muted">{{article.bidsProduct.all.count}} bids so far. 
+
+        {% if article.bidsProduct.all.last.user == user %}
+        Your bid is the highest
+
+{% endif %}
+
+       
+    </p>
+    
+    {% if admin is True %}
+    {% comment %} Si es administrador el usuario se muestra el boton para cerrrar el articulo {% endcomment %}
+        <form action="{% url 'close' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" value={{article.id}} name="product_id">
+            <input type="submit"  class="btn btn-danger" value="Close List">
+        </form>
+        
+    {% endif %}
+
+
+    <div class="bid">
+
+    {% if user.is_authenticated %}
+        {% if admin is not True %}
+        {% comment %} Si no es admin se muestra el boton para realizar pujas {% endcomment %}
+        <form action="{% url 'bid' %}" method="POST">
+            {% csrf_token %}
+            <input type="number" class="form-control" placeholder="Bid" name="bid">
+            <input type="hidden" value="{{article.id}}" name="product">
+
+            <input type="submit" class="btn btn-primary mt-2 mb-2" value="Place Bid" >
+        </form>
+
+        {% endif %}
+    {% endif %}
+    </div>
+
+    <div class="details mt-3">
+        <h4>Details</h4>
+
+        <ul>
+            <li> <span class="fw-bold">Listed by:</span>  {{article.user}}</li>
+            <li> <span class="fw-bold"> Category:</span> {{article.categories.first.name}}</li>
+        </ul>
+    </div>
+
+
+
+    {% if user.is_authenticated %}
+    <div class="commentForm">
+        <h4>Leave a Comment</h4>
+        <form action="{% url 'comment' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{article.id}}">
+            <div class="form-floating mb-3">
+                <textarea class="form-control" name="text" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                <label for="floatingTextarea2">Comments</label>
+              </div>
+              <input type="submit" class="btn btn-dark" value="Comment">
+        </form>
+    </div>
+    {% endif %}
+
+
+    
+
+{% if user.is_authenticated %}   
+<div class="comments mt-4">
+    <h4>Comments:</h4>
+
+    {% for comment in article.comments.all.reverse  %}
+
+
+    <div class="comment border p-3 bg-body-secondary">
+        <p class="fw-bold fs-5">{{comment.user}}</p>
+        <p>{{comment.content}}</p>
+        <p class="text-muted text-end">{{ comment.date | date:"F j, Y h:i A" }}</p>
+    </div>
+    
+   
+    {% endfor %}
+{% endif %}
+    
+</div>
+
+
+
+
+
+</div>  
+{% endif %}
+{% endblock body %}
+
+
+

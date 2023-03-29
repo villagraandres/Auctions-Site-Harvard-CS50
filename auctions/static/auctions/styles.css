@@ -1,0 +1,60 @@
+body {
+    padding: 10px;
+}
+
+.product{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+   
+}
+.info{
+    padding: 50px;
+    flex: 3;
+
+}
+.image-container{
+    margin-left: 20px;
+    flex: 2;
+}
+.image{
+    height: 100px;
+    width: 100px;
+}
+
+.rows {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 50px;
+  }
+  
+  .item {
+    width: 33.33%;
+    box-sizing: border-box;
+    padding: 10px;
+    /* Agrega otros estilos según sea necesario */
+  }
+a{
+    text-decoration: none;
+}
+.imageCenter{
+    display: flex;
+    justify-content: center;
+}
+.ArticleImage{
+    height: 300px;
+    width: 300px;
+}
+
+.watchlist_count{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    background-color: gray;
+    border-radius: 50px;
+    color: white;
+}

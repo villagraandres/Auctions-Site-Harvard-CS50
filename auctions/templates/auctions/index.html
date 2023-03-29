@@ -1,0 +1,32 @@
+
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{title}}</h2>
+
+    {% if  articles|length == 0 %}
+        <h2>Nothing here ...</h2>
+{% endif %}
+
+    {% for article in articles  %}
+<a href="{% url 'product' article.id %}">
+    <div class="product border">
+        <div class="image-container">
+            <img class="image" src="{{article.image}}" alt="">
+        </div>
+        <div class="info">
+            <h3>{{article.title}}</h3>
+            <p><b>Price: $</b>{% if   article.bidsProduct.all.last.bid is None%}{{article.price}}{% endif %}{{ article.bidsProduct.all.last.bid}}</p>
+                
+               
+            
+            </p>
+            <p>{{article.description}}</p>
+            <p class="text-muted">{{ article.date | date:"F j, Y h:i A" }}</p>
+        </div>
+
+    </div>
+</a>
+
+    {% endfor %}
+{% endblock %}
